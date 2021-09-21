@@ -10,3 +10,5 @@ The following methods are included in the file are:
 
 3. A scale/chord chart generator. A method that produce the chords of a scale, and the option to add a secondary scale, the dominant and or diminished chords and the possibility 
 to make it only show triads, sevenths, etc... 
+
+In terms of things I would like to with this application, would be to make the methods more efficent, detailing the methods more and maybe adding a nicer user interface.
