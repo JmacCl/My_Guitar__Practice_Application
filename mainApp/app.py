@@ -1,44 +1,34 @@
 import random
 
 '''
-To use to learn musical sequences
-and chords so that I can be a better improvising musician
+This application is a collection of methods to help with my guitar practice. The functions are mostly designed around helping
+me practice musical sequences, however I am working on making functions that produce a chord harmony chart and a function to help me
+practice the nashville system for a given key.
 
-#Learning sequences:
+If you are reading this an are interested in using application, here is a following guide on how to use the methods:
 
-Important to:
-- Be musical when learning the sequences/chords
-- Learn them so that I can have dexterity for note choice
-- Learn them so that I can learn to how to play the sounds I hear in my head
+- There is a function called start that should explain how to use some of the more functional methods
 
-1: either learn sequence on one string, and or learn sequence 
-going down the stings. Play intervals in between each notes, making sure that
-I play each note slowly I hear whats in my head to guitar
-
-2: Go through all intervals for each note in a scale starting from string 6,
-again making sure to hear each note before I play
-
-3: Play with arpeggios like in 1, not essential to do 2 in case of 
-arpeggio spend time  play around playing a musical idea with the note
-
-#Learning chords:
-
-4 use harmonic creator to show chords add functionality to 
-5 use nashville chord thing to practice the system. Add functionality to add
-diminished and dominant chords
-
-
-1. Learn scales on all strings
-2. go through all intervals
-3. go through triad arpeggios
-4. go through all seventh arpeggios
-5. go through all chords
-
-
-
+In terms of future implementations, I would like to ensure that the methods are more efficient in terms of time complexity,
+I would like to add functionality to the methods so that they can work with more complicated musical sequences and I would like to 
+make all the methods generally more clear.
 '''
 
+'''
+Start works by asking for 4 inputs:
+ - The key you want to use
+ - The selection of the musical sequence(scale/arpeggio)
+ - The function you would like to use
+ - How many times you want that function to be called
 
+For function use there are 4 commands
+
+1: stringModeOne for scales print out random selection of notes in a given sequence
+2. stringModeTwo, prints out a random order of notes in a given sequence with intervals
+3. Generates a chord harmony chart of a given key
+4. Generates a list of arpeggios for a given key. 
+'''
+#This function starts the application
 def start():
     selectionOfKey = input('What Key?: ')
     selectionOfScale = input('What type of scale/arpeggio?: ')
@@ -53,9 +43,6 @@ def start():
                 stringModeOne(selectionOfKey, selectionOfScale)
             elif choiceOfSequence == 'arpeggio':
                 stringModeOneArp(selectionOfKey)
-            random.shuffle(intervalList)
-            print(intervalList.pop)
-            print(intervalList.pop)
         elif userInput == '2':
             stringModeTwo(selectionOfKey, selectionOfScale)
         elif userInput == '3':
@@ -75,12 +62,17 @@ Below are dictionaries or lists used to hold data for the functions of the
 code
 '''
 
-
+'''
+The interval list below is used to play in between notes in a musical scale
+'''
 intervalList = ['m2', 'M2', 'm3', 'M3',
                 'P4', 'A4', 'P5', 'm6',
                 'M6', 'm7', 'M7', 'P8']
-random.shuffle(intervalList)
-print(intervalList.pop())
+
+'''
+The two dictionaries below are used to generate scales depending on the given input key and scale type
+'''
+
 pentatonicList = {'F': ['F', 'G', 'A', 'C', 'D'],
                   'C': ['C', 'D', 'E', 'G', 'A'],
                   'G': ['G', 'A', 'B', 'D', 'E']}
@@ -89,6 +81,10 @@ majorList = {'F': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
              'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
              'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#']}
 
+'''
+The dictionary below is used for the chord harmony chart generator to indicate the what chords in the scale are present,
+and the positions of the secondary dominant and diminished chords.
+'''
 chordNumbers = {'simple': ['1', '2', '3', '4', '5', '6', '7'],
                 'diminished': ['dim2', 'dim3', 'dim4', 'dim5', 'dim6'],
                 'dominant': ['dom2', 'dom3', 'dom4', 'dom5', 'dom6']}
@@ -115,9 +111,17 @@ notesDict = {0: ['B#', 'C'],
              11: 'B'}
 
 '''
-Below are some of the mai functions used to serve the purpose of practice
+Below are some of the main functions used to serve the purpose of practice
 '''
 
+'''
+The function stringModeOne takes in two parameters:
+1. The key of the scale
+2. The scale which can either be a penatonic or major scale
+
+The methods works by shuffling the list from a given key, 
+depending on the scale type and then printing that shuffled scale.
+'''
 def stringModeOne(Key, Scale):
     if Scale == 'Pen':
         random.shuffle(pentatonicList[Key])
@@ -127,20 +131,46 @@ def stringModeOne(Key, Scale):
         print(majorList[Key])
 
 
+'''
+The function stringModeTwo takes in two parameters:
+1. The key of the scale
+2. The scale which can either be a pentatonic or major scale
+
+Basically the same function as above, however it includes a interval to be played in between each note in a musical sequence
+'''
 def stringModeTwo(Key, Scale):
     if Scale == 'Pen':
+        random.shuffle(pentatonicList[Key])
         count = len(pentatonicList[Key])
         while count > 0:
             random.shuffle(intervalList)
-            random.shuffle(pentatonicList[Key])
             print(pentatonicList[Key].pop() + ' : ' + str(intervalList))
             count -= 1
     if Scale == 'Major':
+        random.shuffle(majorList[Key])
         count = len(majorList[Key])
         while count > 0:
             random.shuffle(intervalList)
-            random.shuffle(majorList[Key])
             print(majorList[Key].pop() + ' : ' + str(intervalList))
+            count -= 1
+
+'''
+This function below is used to pop intervals from interval list by a certain amount
+'''
+def printXAmountFromInterval(amount):
+    copy = intervalList.copy()
+    random.shuffle(copy)
+    count = 0
+    while count <= amount:
+        if count == 12:
+            amount -= 12
+            copy = intervalList.copy()
+            random.shuffle(copy)
+            print(copy.pop())
+            count = 1
+        else:
+            random.shuffle(copy)
+            print(copy.pop())
             count -= 1
 
 
@@ -243,7 +273,7 @@ def stringModeOneArp(Key):
     elif ArepeggioType == 'seventh':
         harmonyDict = scaleComplexityDict['Major'][1]
 
-    print(harmonyDict)
+
     keyNumber = get_key(Key, notesDict)
     returnList = [keyNumber]
     initialScale = scaleDict['Major']
@@ -255,7 +285,7 @@ def stringModeOneArp(Key):
         returnList[returnList.index(numbers)] = note
     getRidOfListSubSets(returnList)
 
-    print(returnList)
+
     for notes in returnList:
         print(notes + ' ' + harmonyDict[returnList.index(notes)] +
               ':' + str(getArpeggio(notes, harmonyDict[returnList.index(notes)])))
@@ -412,8 +442,24 @@ Use this area to test out code
 
 # -----------------------------------------
 
-start()
-chordHarmonyGenerator('A')
+printXAmountFromInterval(5)
+stringModeOne('F','Pen')
+
+#chordHarmonyGenerator('F')
+
+#nashvillePractice('F',7,'NOne')
+# random.shuffle(intervalList)
+# print(intervalList.pop())
+# print(intervalList.pop())
+# print(intervalList.pop())
+# print(intervalList.pop())
+# print(intervalList.pop())
+# print(intervalList.pop())
+#
+#
+# stringModeOne('F', 'Major')
+# #start()
+# chordHarmonyGenerator('F')
 
 # for arpeggios just return a random one of the items in sublist.
 
