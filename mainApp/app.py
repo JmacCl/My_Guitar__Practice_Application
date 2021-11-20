@@ -160,18 +160,17 @@ This function below is used to pop intervals from interval list by a certain amo
 def printXAmountFromInterval(amount):
     copy = intervalList.copy()
     random.shuffle(copy)
-    count = 0
-    while count <= amount:
-        if count == 12:
-            amount -= 12
+    iterList = []
+    while amount > 0:
+        if len(copy) == 0:
             copy = intervalList.copy()
             random.shuffle(copy)
-            print(copy.pop())
-            count = 1
-        else:
-            random.shuffle(copy)
-            print(copy.pop())
-            count -= 1
+        iterList.append(copy.pop())
+        amount-=1
+    print(iterList)
+    for intervals in iterList:
+        print(intervals )
+    return iterList
 
 
 def getArpeggio(Key, Arpeggio):
@@ -442,7 +441,7 @@ Use this area to test out code
 
 # -----------------------------------------
 
-printXAmountFromInterval(5)
+printXAmountFromInterval(16)
 stringModeOne('F','Pen')
 
 #chordHarmonyGenerator('F')
